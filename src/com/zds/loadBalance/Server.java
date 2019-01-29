@@ -13,6 +13,7 @@ public class Server {
 
     private int active;
 
+
     public int getActive() {
         return active;
     }

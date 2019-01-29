@@ -18,7 +18,7 @@ public class LoadBalanceImpl {
     //服务器列表
     static List<Server> servers = new ArrayList<>();
 
-    static List<String> requestUrl = Arrays.asList("/index","/user/list","/order/list","/index","/order/list","/user/info","/order/info","/user/list");
+    static List<String> requestUrl = Arrays.asList("/index", "/order/list", "/user/info", "/order/info", "/user/list");
 
     static {
         for (int i = 1; i < 4; i++) {
@@ -33,10 +33,16 @@ public class LoadBalanceImpl {
     }
 
     public static void main(String[] args) {
-        requestUrl.forEach(s -> {
-            Server server = consistentHashLoadBalance(s);
-            System.out.println(server.getIp());
-        });
+
+        ConsistentHash consistentHash = new ConsistentHash(160,servers);
+
+        for (int i = 0; i < 100; i++) {
+            String method = requestUrl.get(new Random().nextInt(requestUrl.size()-1));
+            Server server = consistentHash.select(method);
+            System.out.println("方法："+method+"，节点："+server.getIp());
+        }
+
+//
 //        for (int i = 0; i < 10; i++) {
 //            Server s = randomLoadBalance();
 //            serverMap.put(s.getIp(), serverMap.get(s.getIp()) + 1);
@@ -127,7 +133,7 @@ public class LoadBalanceImpl {
     public static Server consistentHashLoadBalance(String url) {
         int length = servers.size();
         int hashcode = url.hashCode();
-        int seq =hashcode % length;
+        int seq = hashcode % length;
         seq = Math.abs(seq);
 
         return servers.get(seq);
