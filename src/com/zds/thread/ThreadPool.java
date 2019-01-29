@@ -1,6 +1,7 @@
 package com.zds.thread;
 
 import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -12,7 +13,6 @@ import java.util.concurrent.TimeUnit;
  */
 public class ThreadPool {
     public static void main(String[] args) {
-
         ThreadPoolExecutor executor = new ThreadPoolExecutor(5, 10, 200, TimeUnit.MILLISECONDS,
                 new ArrayBlockingQueue<Runnable>(5));
 
