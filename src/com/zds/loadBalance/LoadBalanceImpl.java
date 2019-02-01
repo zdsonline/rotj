@@ -34,14 +34,19 @@ public class LoadBalanceImpl {
 
     public static void main(String[] args) {
 
-        ConsistentHash consistentHash = new ConsistentHash(160,servers);
+//        ConsistentHash consistentHash = new ConsistentHash(160,servers);
+//
+//        for (int i = 0; i < 100; i++) {
+//            String method = requestUrl.get(new Random().nextInt(requestUrl.size()-1));
+//            Server server = consistentHash.select(method);
+//            System.out.println("方法："+method+"，节点："+server.getIp());
+//        }
 
         for (int i = 0; i < 100; i++) {
-            String method = requestUrl.get(new Random().nextInt(requestUrl.size()-1));
-            Server server = consistentHash.select(method);
-            System.out.println("方法："+method+"，节点："+server.getIp());
-        }
 
+            Server ser  = roundRobinLoadBalance();
+            System.out.println(ser.getIp());
+        }
 //
 //        for (int i = 0; i < 10; i++) {
 //            Server s = randomLoadBalance();
